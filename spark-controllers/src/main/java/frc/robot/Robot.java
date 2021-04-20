@@ -30,6 +30,7 @@ public class Robot extends TimedRobot
     private SpeedControllerGroup leftSpeedControllers;
     private SpeedControllerGroup rightSpeedControllers;
     private DifferentialDrive diffDrive;
+    private boolean isPressed = false;
 
     public static Joystick joystick = new Joystick(0);
 
@@ -61,6 +62,7 @@ public class Robot extends TimedRobot
 
 
     }
+
 
     /**
      * This method is called every robot packet, no matter the mode. Use this for items like
@@ -97,12 +99,23 @@ public class Robot extends TimedRobot
 
     /** This function is called once when teleop is enabled. */
     @Override
-    public void teleopInit() {}
+    public void teleopInit() {
+        isPressed = joystick.getRawButton(5);
+        System.out.println(isPressed);
+    }
 
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        diffDrive.arcadeDrive(joystick.getX() * 0.4, joystick.getY() * -0.4); //megan was right
+
+
+        if(isPressed){
+            diffDrive.arcadeDrive(joystick.getZ() * 0.6, joystick.getY() * -0.8);
+        }
+        else{
+            diffDrive.arcadeDrive(joystick.getZ() * 0.4, joystick.getY() * -0.6);
+        }
+
     }
 
     /** This function is called once when the robot is disabled. */
